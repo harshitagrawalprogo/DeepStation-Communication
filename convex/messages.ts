@@ -208,6 +208,9 @@ export const sendMessage = mutation({
             userName: args.userName,
             createdAt: Date.now(),
             isEdited: false,
+            messageType: "chat",
+            priority: "normal",
+            authorRole: "Staff",
             // Reply fields
             replyToId: args.replyToId,
             replyToContent: args.replyToContent,

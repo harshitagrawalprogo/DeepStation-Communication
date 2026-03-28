@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Menu, PanelLeftClose, PanelLeft } from "lucide-react";
+import { Menu, PanelLeft, PanelLeftClose, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./theme-toggle";
@@ -16,7 +16,7 @@ interface WorkspaceHeaderProps {
 }
 
 export function WorkspaceHeader({
-  workspaceName = "UpFilo",
+  workspaceName = "DeepStation RIT",
   onMenuToggle,
   onSearch,
   onSidebarCollapse,
@@ -26,24 +26,21 @@ export function WorkspaceHeader({
   return (
     <header
       className={cn(
-        "h-14 flex-shrink-0 bg-white/80 dark:bg-[#010409]/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-[#30363d] flex items-center justify-between px-4 z-50 md:relative fixed top-0 left-0 right-0",
+        "fixed left-0 right-0 top-0 z-50 flex h-14 flex-shrink-0 items-center justify-between border-b border-slate-200/50 bg-white/80 px-4 backdrop-blur-xl dark:border-[#30363d] dark:bg-[#010409]/95 md:relative",
         className
       )}
     >
-      {/* Left Section: Logo & Workspace Name */}
       <div className="flex items-center gap-3">
-        {/* Mobile menu toggle */}
         <button
-          className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[#21262d] text-slate-500 dark:text-[#8d96a0] hover:text-slate-700 dark:hover:text-[#e6edf3] md:hidden transition-colors"
+          className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:text-[#8d96a0] dark:hover:bg-[#21262d] dark:hover:text-[#e6edf3] md:hidden"
           onClick={onMenuToggle}
           aria-label="Toggle sidebar"
         >
           <Menu className="h-5 w-5" />
         </button>
 
-        {/* Sidebar collapse button - desktop only */}
         <button
-          className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[#21262d] text-slate-500 dark:text-[#8d96a0] hover:text-slate-700 dark:hover:text-[#e6edf3] hidden md:flex transition-colors"
+          className="hidden rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:text-[#8d96a0] dark:hover:bg-[#21262d] dark:hover:text-[#e6edf3] md:flex"
           onClick={onSidebarCollapse}
           title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
@@ -54,46 +51,44 @@ export function WorkspaceHeader({
           )}
         </button>
 
-        <div className="h-5 w-px bg-slate-200 dark:bg-[#30363d] hidden md:block" />
+        <div className="hidden h-5 w-px bg-slate-200 dark:bg-[#30363d] md:block" />
 
-        <div className="flex items-center gap-2.5 cursor-pointer group">
-          <div className="w-8 h-8 rounded-xl bg-white dark:bg-[#161b22] shadow-md border border-slate-200/50 dark:border-[#30363d] flex items-center justify-center group-hover:shadow-lg transition-all">
+        <div className="group flex cursor-pointer items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200/50 bg-white shadow-md transition-all group-hover:shadow-lg dark:border-[#30363d] dark:bg-[#161b22]">
             <LogoIcon size={20} />
           </div>
-          <span className="font-semibold text-slate-800 dark:text-[#e6edf3] hidden sm:block group-hover:text-blue-600 dark:group-hover:text-[#58a6ff] transition-colors">
-            {workspaceName}
-          </span>
+          <div className="hidden sm:block">
+            <span className="block font-semibold text-slate-800 transition-colors group-hover:text-teal-700 dark:text-[#e6edf3] dark:group-hover:text-teal-300">
+              {workspaceName}
+            </span>
+            <span className="block text-[10px] uppercase tracking-[0.2em] text-slate-400 dark:text-[#8d96a0]">
+              Internal Communications
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Center Section: Global Search - Desktop */}
-      <div className="flex-1 max-w-xl mx-4 hidden md:block">
+      <div className="mx-4 hidden max-w-xl flex-1 md:block">
         <div className="relative">
-          <Search
-            aria-hidden="true"
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-[#8d96a0] stroke-current z-10 pointer-events-none"
-          />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 dark:text-[#8d96a0]" />
           <Input
-            placeholder="Search... ⌘K"
-            className="pl-9 h-9 text-sm bg-slate-100/80 dark:bg-[#21262d] border-slate-200/50 dark:border-[#30363d] rounded-xl focus:bg-white dark:focus:bg-[#161b22] focus:border-blue-300 dark:focus:border-[#58a6ff]/50 focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-[#58a6ff]/20 transition-all w-full placeholder:text-slate-400 dark:placeholder:text-[#8d96a0] text-slate-800 dark:text-[#e6edf3]"
+            placeholder="Search messages, files, or channels... Ctrl+K"
+            className="h-9 w-full rounded-xl border-slate-200/50 bg-slate-100/80 pl-9 text-sm text-slate-800 placeholder:text-slate-400 transition-all focus:border-blue-300 focus:bg-white focus:ring-2 focus:ring-blue-500/20 dark:border-[#30363d] dark:bg-[#21262d] dark:text-[#e6edf3] dark:placeholder:text-[#8d96a0] dark:focus:border-[#58a6ff]/50 dark:focus:bg-[#161b22] dark:focus:ring-[#58a6ff]/20"
             onFocus={() => onSearch?.("")}
             readOnly
           />
         </div>
       </div>
 
-      {/* Right Section: Actions */}
       <div className="flex items-center gap-1.5">
-        {/* Mobile Search Button */}
         <button
-          className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[#21262d] text-slate-500 dark:text-[#8d96a0] hover:text-slate-700 dark:hover:text-[#e6edf3] md:hidden transition-colors"
+          className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:text-[#8d96a0] dark:hover:bg-[#21262d] dark:hover:text-[#e6edf3] md:hidden"
           onClick={() => onSearch?.("")}
           aria-label="Search"
         >
           <Search className="h-5 w-5" />
         </button>
-        {/* Theme Toggle */}
-        <div className="p-0.5 rounded-lg bg-white dark:bg-[#161b22] border border-slate-200 dark:border-[#30363d] shadow-[3px_3px_8px_rgba(0,0,0,0.08),-3px_-3px_8px_rgba(255,255,255,0.9)] dark:shadow-[3px_3px_8px_rgba(0,0,0,0.3),-3px_-3px_8px_rgba(255,255,255,0.05)]">
+        <div className="rounded-lg border border-slate-200 bg-white p-0.5 shadow-[3px_3px_8px_rgba(0,0,0,0.08),-3px_-3px_8px_rgba(255,255,255,0.9)] dark:border-[#30363d] dark:bg-[#161b22] dark:shadow-[3px_3px_8px_rgba(0,0,0,0.3),-3px_-3px_8px_rgba(255,255,255,0.05)]">
           <ThemeToggle />
         </div>
       </div>

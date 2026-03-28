@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <meta name="apple-mobile-web-app-title" content="Upfilo" />
+      <meta name="apple-mobile-web-app-title" content="DeepStation RIT" />
       <body className={`${inter.className} h-full`}>
         <ThemeProvider
           attribute="class"

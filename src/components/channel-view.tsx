@@ -264,8 +264,7 @@ export function ChannelView({
               Select a Channel
             </h3>
             <p className="text-slate-500 dark:text-[#8d96a0]">
-              Choose a channel from the sidebar to start chatting or create a
-              new one to collaborate with your team.
+              Choose a channel from the sidebar to review updates, coordinate with teams, or open a new discussion.
             </p>
           </div>
         </div>
@@ -298,7 +297,7 @@ export function ChannelView({
                 {channelType === "private"
                   ? "Private"
                   : channelType === "user"
-                    ? "Direct Message"
+                    ? "Private Desk"
                     : "Channel"}
               </span>
             </div>
@@ -379,8 +378,8 @@ export function ChannelView({
                 </span>{" "}
                 channel.
                 {channelType === "private"
-                  ? " Private discussions."
-                  : " Start conversations with your team."}
+                  ? " Private operational coordination starts here."
+                  : " Share updates, decisions, and handover context with the team."}
               </p>
             </div>
 
@@ -458,7 +457,7 @@ export function ChannelView({
               >
                 <MessageSquare className="h-5 w-5" />
                 <span className="text-sm font-medium">
-                  Tap to type a message...
+                  Send an internal update...
                 </span>
               </button>
             </div>
@@ -472,7 +471,7 @@ export function ChannelView({
             >
               <div className="flex items-center justify-between px-4 py-2 border-b border-slate-200/50 dark:border-[#30363d]">
                 <span className="text-sm font-medium text-slate-600 dark:text-[#8d96a0]">
-                  Message #{channelName}
+                  Update #{channelName}
                 </span>
                 <button
                   onClick={() => setIsMobileChatExpanded(false)}

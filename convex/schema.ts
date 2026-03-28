@@ -6,6 +6,17 @@ const schema = defineSchema({
         name: v.string(),
         customId: v.string(),
         description: v.optional(v.string()),
+        organizationName: v.optional(v.string()),
+        organizationType: v.optional(v.union(
+            v.literal("institution"),
+            v.literal("department"),
+            v.literal("team")
+        )),
+        communicationMode: v.optional(v.union(
+            v.literal("internal"),
+            v.literal("hybrid")
+        )),
+        primaryLocation: v.optional(v.string()),
         createdAt: v.number(),
         updatedAt: v.number(),
     })
@@ -18,6 +29,14 @@ const schema = defineSchema({
         type: v.union(v.literal("group"), v.literal("user")),
         password: v.optional(v.string()), // Only for type: "user"
         isExpanded: v.optional(v.boolean()),
+        audience: v.optional(v.union(
+            v.literal("all-staff"),
+            v.literal("operations"),
+            v.literal("leadership"),
+            v.literal("support"),
+            v.literal("students"),
+            v.literal("private")
+        )),
         order: v.number(),
         createdAt: v.number(),
         updatedAt: v.number(),
@@ -38,6 +57,18 @@ const schema = defineSchema({
         ),
         description: v.optional(v.string()),
         isActive: v.optional(v.boolean()),
+        department: v.optional(v.string()),
+        priority: v.optional(v.union(
+            v.literal("low"),
+            v.literal("normal"),
+            v.literal("high"),
+            v.literal("critical")
+        )),
+        postingPolicy: v.optional(v.union(
+            v.literal("open"),
+            v.literal("announcements"),
+            v.literal("moderated")
+        )),
         order: v.number(),
         createdAt: v.number(),
         updatedAt: v.number(),
@@ -56,6 +87,19 @@ const schema = defineSchema({
         createdAt: v.number(),
         updatedAt: v.optional(v.number()),
         isEdited: v.optional(v.boolean()),
+        messageType: v.optional(v.union(
+            v.literal("chat"),
+            v.literal("announcement"),
+            v.literal("status"),
+            v.literal("system")
+        )),
+        priority: v.optional(v.union(
+            v.literal("low"),
+            v.literal("normal"),
+            v.literal("high"),
+            v.literal("critical")
+        )),
+        authorRole: v.optional(v.string()),
         // Reply functionality
         replyToId: v.optional(v.id("messages")), // ID of the message being replied to
         replyToContent: v.optional(v.string()), // Content of the original message for quick display
@@ -69,6 +113,8 @@ const schema = defineSchema({
         name: v.string(),
         email: v.string(),
         avatar: v.optional(v.string()),
+        role: v.optional(v.string()),
+        department: v.optional(v.string()),
         status: v.union(v.literal("online"), v.literal("offline"), v.literal("away")),
         workspaceIds: v.array(v.id("workspaces")),
         createdAt: v.number(),
@@ -82,6 +128,8 @@ const schema = defineSchema({
         status: v.union(v.literal("online"), v.literal("offline"), v.literal("away")),
         lastSeen: v.number(),
         joinedAt: v.number(),
+        department: v.optional(v.string()),
+        role: v.optional(v.string()),
         currentChannel: v.optional(v.id("channels")),
     })
     .index("by_workspace_id", ["workspaceId"])

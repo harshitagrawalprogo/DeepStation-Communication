@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,130 +30,82 @@ export function NameInputDialog({
   isOpen,
   onNameSubmit,
   onClose,
-  title = "Welcome to UpFilo!",
-  placeholder = "Enter your name to start chatting",
+  title = "Join DeepStation RIT",
+  placeholder = "Enter your staff name",
   workspaceName,
   defaultValue = "",
   buttonText,
   description,
 }: NameInputDialogProps) {
   const [name, setName] = useState(defaultValue);
-  const [isLoading, setIsLoading] = useState(false);
 
-  // Update name when defaultValue or isOpen changes
   useEffect(() => {
     if (isOpen) {
       setName(defaultValue);
-      setIsLoading(false); // Reset loading state when dialog opens
     }
   }, [defaultValue, isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!name.trim()) return;
-
     onNameSubmit(name.trim());
-    // Don't clear the name here - let the parent component handle it
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md mx-auto relative bg-neomorphic-bg/95 backdrop-blur-xl border border-neomorphic-border/50 shadow-2xl rounded-3xl p-8">
-        {/* Neomorphic decorative elements */}
-        <div className="absolute top-6 right-6 w-3 h-3 bg-neomorphic-surface rounded-full shadow-neomorphic-inset opacity-60" />
-        <div className="absolute bottom-8 left-8 w-2 h-2 bg-neomorphic-surface rounded-full shadow-neomorphic-inset opacity-40" />
-        <div className="absolute top-12 left-12 w-1.5 h-1.5 bg-neomorphic-surface rounded-full shadow-neomorphic-inset opacity-50" />
-
-        {/* Main content */}
-        <div className="relative">
-          <DialogHeader className="space-y-4 text-center">
-            {/* Neomorphic icon container with Logo */}
-            <div className="mx-auto w-20 h-20 bg-neomorphic-surface rounded-3xl shadow-neomorphic-inset flex items-center justify-center mb-6 relative">
-              <div className="w-14 h-14 bg-neomorphic-surface rounded-2xl shadow-neomorphic flex items-center justify-center">
-                <LogoIcon size={36} />
-              </div>
-              {/* Small neomorphic accent */}
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-electric-blue rounded-full shadow-sm opacity-80" />
+      <DialogContent className="mx-auto rounded-3xl border border-slate-200/60 bg-white/95 p-8 shadow-2xl dark:border-white/10 dark:bg-[#111918]/95 sm:max-w-md">
+        <DialogHeader className="space-y-4 text-center">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-teal-500/15 bg-[linear-gradient(135deg,rgba(15,118,110,0.14),rgba(217,119,6,0.08))]">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-lg dark:bg-[#162120]">
+              <LogoIcon size={34} />
             </div>
+          </div>
+          <DialogTitle className="text-2xl font-semibold text-slate-950 dark:text-slate-50">
+            {workspaceName ? `Enter DeepStation RIT as ${workspaceName}` : title}
+          </DialogTitle>
+          <DialogDescription className="text-base leading-7 text-slate-600 dark:text-slate-300">
+            {description ||
+              (workspaceName
+                ? `Add the name your team uses internally so your messages and presence appear correctly inside ${workspaceName}.`
+                : placeholder)}
+          </DialogDescription>
+        </DialogHeader>
 
-            <DialogTitle className="heading-md text-2xl text-neomorphic-text">
-              {workspaceName ? `Welcome to ${workspaceName}!` : title}
-            </DialogTitle>
-            <DialogDescription className="subtitle-md text-base leading-relaxed px-2">
-              {description ||
-                (workspaceName
-                  ? `Enter your name to join ${workspaceName} and start collaborating with your team`
-                  : placeholder)}
-            </DialogDescription>
-          </DialogHeader>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          <div className="space-y-3">
+            <Label
+              htmlFor="name-input"
+              className="text-sm font-semibold tracking-wide text-slate-700 dark:text-slate-200"
+            >
+              Display name
+            </Label>
+            <Input
+              id="name-input"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Example: Asha Verma"
+              className="h-14 rounded-2xl border-slate-200 bg-slate-50 px-4 text-base dark:border-white/10 dark:bg-[#182221]"
+            />
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6 mt-8">
-            <div className="space-y-4">
-              <Label
-                htmlFor="name-input"
-                className="text-neomorphic-text font-semibold text-sm tracking-wide"
-              >
-                Display Name
-              </Label>
-              <div className="relative">
-                <Input
-                  id="name-input"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your display name..."
-                  className="input-neomorphic h-14 text-base text-neomorphic-text placeholder:text-neomorphic-text-secondary/60 focus:shadow-neomorphic-inset focus:border focus:border-electric-blue/40 rounded-2xl border-0 bg-neomorphic-surface/50"
-                  disabled={isLoading}
-                />
-                {/* Neomorphic focus indicator */}
-                {name.trim() && (
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-electric-blue rounded-full shadow-sm animate-pulse" />
-                )}
-              </div>
-            </div>
-
-            <DialogFooter className="flex gap-4 pt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onClose}
-                className="flex-1 h-12 rounded-2xl text-neomorphic-text font-medium border border-neomorphic-border/50 hover:bg-neomorphic-surface transition-all duration-200"
-                disabled={isLoading}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="flex-1 h-12 rounded-2xl text-white font-semibold border-0 bg-gradient-to-r from-electric-blue to-electric-purple shadow-lg shadow-electric-blue/30 hover:shadow-electric-blue/50 hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:hover:scale-100"
-                disabled={isLoading || !name.trim()}
-              >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    Processing...
-                  </div>
-                ) : (
-                  <span className="flex items-center gap-2">
-                    {buttonText ||
-                      (workspaceName ? "Join Workspace" : "Continue")}
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </span>
-                )}
-              </Button>
-            </DialogFooter>
-          </form>
-        </div>
+          <DialogFooter className="flex gap-3 pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              className="h-12 flex-1 rounded-2xl"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="h-12 flex-1 rounded-2xl bg-teal-700 text-white hover:bg-teal-800 dark:bg-teal-500 dark:text-slate-950 dark:hover:bg-teal-400"
+              disabled={!name.trim()}
+            >
+              {buttonText || (workspaceName ? "Join Workspace" : "Continue")}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

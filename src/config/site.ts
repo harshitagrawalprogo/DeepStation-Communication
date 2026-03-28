@@ -1,4 +1,4 @@
 export const siteConfig = {
-    name: "UpFilo",
-    description: "Upload and share files for free.",
+    name: "DeepStation RIT Comms",
+    description: "Internal communication hub for DeepStation RIT teams, operations, and leadership updates.",
 };

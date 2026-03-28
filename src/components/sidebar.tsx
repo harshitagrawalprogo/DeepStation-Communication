@@ -90,7 +90,7 @@ export function Sidebar({
 
   const navItems = [
     {
-      label: "Media Gallery",
+      label: "Shared Assets",
       icon: Image,
       value: "mediaGallery",
     },
@@ -174,7 +174,7 @@ export function Sidebar({
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-[#9aa4ae] pointer-events-none z-10"
               />
               <Input
-                placeholder="Search"
+                placeholder="Search sections"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={(e) => e.stopPropagation()}
@@ -198,7 +198,7 @@ export function Sidebar({
               )}
             >
               <Image className="h-4 w-4 flex-shrink-0" />
-              <span>Media Gallery</span>
+              <span>Shared Assets</span>
             </button>
 
             {/* Channels Section */}
@@ -209,7 +209,7 @@ export function Sidebar({
                   className="flex items-center gap-1"
                 >
                   <span className="text-[10px] font-semibold text-slate-400 dark:text-[#8d96a0] uppercase tracking-wider">
-                    Channels
+                    Broadcast & Teams
                   </span>
                   <ChevronDown
                     className={cn(
@@ -270,7 +270,7 @@ export function Sidebar({
                   className="flex items-center gap-1"
                 >
                   <span className="text-[10px] font-semibold text-slate-400 dark:text-[#8d96a0] uppercase tracking-wider">
-                    User Channels
+                    Private Desks
                   </span>
                   <ChevronDown
                     className={cn(
@@ -341,7 +341,7 @@ export function Sidebar({
           {/* User Section */}
           <div className="p-2 border-t border-slate-200/50 dark:border-[#30363d] bg-white/50 dark:bg-[#010409]/50">
             <WorkspaceUserSection
-              userName={userName || "Guest"}
+              userName={userName || "Staff"}
               isCollapsed={false}
               onLogout={handleLogout}
             />

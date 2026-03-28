@@ -1,6 +1,134 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
+const INTERNAL_CHANNEL_BLUEPRINTS = {
+    groups: [
+        {
+            name: "Leadership Broadcasts",
+            type: "group" as const,
+            audience: "leadership" as const,
+            channels: [
+                {
+                    name: "announcements",
+                    subType: "announcement" as const,
+                    description: "Official notices, policy changes, and campus-wide updates.",
+                    department: "Leadership Office",
+                    priority: "high" as const,
+                    postingPolicy: "announcements" as const,
+                },
+                {
+                    name: "executive-briefings",
+                    subType: "text" as const,
+                    description: "Leadership planning, follow-ups, and meeting summaries.",
+                    department: "Leadership Office",
+                    priority: "normal" as const,
+                    postingPolicy: "moderated" as const,
+                },
+            ],
+        },
+        {
+            name: "Operations Center",
+            type: "group" as const,
+            audience: "operations" as const,
+            channels: [
+                {
+                    name: "shift-handover",
+                    subType: "text" as const,
+                    description: "Daily handovers, duty notes, and operational continuity updates.",
+                    department: "Operations",
+                    priority: "high" as const,
+                    postingPolicy: "open" as const,
+                },
+                {
+                    name: "incident-desk",
+                    subType: "private" as const,
+                    description: "Escalations, incident coordination, and urgent response threads.",
+                    department: "Operations",
+                    priority: "critical" as const,
+                    postingPolicy: "moderated" as const,
+                },
+            ],
+        },
+        {
+            name: "Departments",
+            type: "group" as const,
+            audience: "all-staff" as const,
+            channels: [
+                {
+                    name: "engineering-bay",
+                    subType: "text" as const,
+                    description: "Technical discussions, maintenance plans, and system rollouts.",
+                    department: "Engineering",
+                    priority: "normal" as const,
+                    postingPolicy: "open" as const,
+                },
+                {
+                    name: "student-support",
+                    subType: "text" as const,
+                    description: "Student issues, request triage, and service coordination.",
+                    department: "Student Support",
+                    priority: "normal" as const,
+                    postingPolicy: "open" as const,
+                },
+                {
+                    name: "campus-it",
+                    subType: "text" as const,
+                    description: "Network notices, software requests, and infrastructure updates.",
+                    department: "IT Services",
+                    priority: "high" as const,
+                    postingPolicy: "open" as const,
+                },
+            ],
+        },
+        {
+            name: "Private Desks",
+            type: "user" as const,
+            audience: "private" as const,
+            channels: [
+                {
+                    name: "admin-desk",
+                    subType: "private" as const,
+                    description: "Private coordination for administration and approvals.",
+                    department: "Administration",
+                    priority: "high" as const,
+                    postingPolicy: "moderated" as const,
+                },
+                {
+                    name: "hr-support",
+                    subType: "private" as const,
+                    description: "Sensitive staff support, HR queries, and confidential follow-up.",
+                    department: "Human Resources",
+                    priority: "high" as const,
+                    postingPolicy: "moderated" as const,
+                },
+            ],
+        },
+    ],
+    welcomeMessages: [
+        {
+            channelName: "announcements",
+            content: "DeepStation RIT communications hub is live. Use this space for institution-wide announcements, verified operational guidance, and critical updates.",
+            messageType: "announcement" as const,
+            priority: "high" as const,
+            authorRole: "System",
+        },
+        {
+            channelName: "shift-handover",
+            content: "Use this channel to record shift notes, escalations, pending issues, and any handover items that the next team should see immediately.",
+            messageType: "system" as const,
+            priority: "normal" as const,
+            authorRole: "Operations Bot",
+        },
+        {
+            channelName: "engineering-bay",
+            content: "Engineering discussions start here. Share maintenance schedules, deployment notes, and troubleshooting context with the wider technical team.",
+            messageType: "system" as const,
+            priority: "normal" as const,
+            authorRole: "Engineering Bot",
+        },
+    ],
+};
+
 // Generate URL-friendly custom ID from name
 export const generateCustomId = (name: string) => {
     return name
@@ -55,35 +183,67 @@ export const create = mutation({
         const workspaceId = await ctx.db.insert("workspaces", {
             name: args.name, 
             customId,
-            description: args.description,
+            description: args.description || "Internal communications workspace for DeepStation RIT teams, operations, and leadership updates.",
+            organizationName: "DeepStation RIT",
+            organizationType: "institution",
+            communicationMode: "internal",
+            primaryLocation: "RIT Campus",
             createdAt: now,
             updatedAt: now,
         });
 
-        // Create default channel groups
-        const generalGroupId = await ctx.db.insert("channelGroups", {
-            name: "General",
-            workspaceId,
-            type: "group",
-            isExpanded: true,
-            order: 0,
-            createdAt: now,
-            updatedAt: now,
-        });
+        const channelIdByName = new Map<string, any>();
 
-        // Create default general channel
-        await ctx.db.insert("channels", {
-            name: "general",
-            workspaceId,
-            groupId: generalGroupId,
-            type: "group",
-            subType: "text",
-            description: "General team discussions",
-            isActive: true,
-            order: 0,
-            createdAt: now,
-            updatedAt: now,
-        });
+        for (const [groupOrder, group] of INTERNAL_CHANNEL_BLUEPRINTS.groups.entries()) {
+            const groupId = await ctx.db.insert("channelGroups", {
+                name: group.name,
+                workspaceId,
+                type: group.type,
+                isExpanded: true,
+                audience: group.audience,
+                order: groupOrder,
+                createdAt: now,
+                updatedAt: now,
+            });
+
+            for (const [channelOrder, channel] of group.channels.entries()) {
+                const channelId = await ctx.db.insert("channels", {
+                    name: channel.name,
+                    workspaceId,
+                    groupId,
+                    type: group.type,
+                    subType: channel.subType,
+                    description: channel.description,
+                    isActive: channel.name === "announcements",
+                    department: channel.department,
+                    priority: channel.priority,
+                    postingPolicy: channel.postingPolicy,
+                    order: channelOrder,
+                    createdAt: now,
+                    updatedAt: now,
+                });
+
+                channelIdByName.set(channel.name, channelId);
+            }
+        }
+
+        for (const welcomeMessage of INTERNAL_CHANNEL_BLUEPRINTS.welcomeMessages) {
+            const channelId = channelIdByName.get(welcomeMessage.channelName);
+            if (!channelId) continue;
+
+            await ctx.db.insert("messages", {
+                channelId,
+                content: welcomeMessage.content,
+                richContent: undefined,
+                userId: "system-deepstation",
+                userName: "DeepStation Notice Bot",
+                createdAt: now,
+                isEdited: false,
+                messageType: welcomeMessage.messageType,
+                priority: welcomeMessage.priority,
+                authorRole: welcomeMessage.authorRole,
+            });
+        }
 
         return { workspaceId, customId };
     }
@@ -212,6 +372,7 @@ export const getInfoById = query({
         return {
             name: workspace?.name,
             description: workspace?.description,
+            organizationName: workspace?.organizationName,
             isMember: true,
         };
     },

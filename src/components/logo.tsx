@@ -27,20 +27,20 @@ export const LogoIcon = ({
     >
       <defs>
         <linearGradient
-          id="upfilo-gradient"
+          id="deepstation-gradient"
           x1="0%"
           y1="0%"
           x2="100%"
           y2="100%"
         >
-          <stop offset="0%" style={{ stopColor: "#0969da", stopOpacity: 1 }} />
+          <stop offset="0%" style={{ stopColor: "#0f766e", stopOpacity: 1 }} />
           <stop
             offset="100%"
-            style={{ stopColor: "#2da44e", stopOpacity: 1 }}
+            style={{ stopColor: "#d97706", stopOpacity: 1 }}
           />
         </linearGradient>
       </defs>
-      <g fill="url(#upfilo-gradient)">
+      <g fill="url(#deepstation-gradient)">
         <rect
           x="15"
           y="15"
@@ -59,7 +59,8 @@ export const LogoIcon = ({
           ry="18"
           opacity="0.85"
         />
-        <circle cx="52.5" cy="52.5" r="14" />
+        <path d="M50 28l18 10.5v21L50 70 32 59.5v-21L50 28z" opacity="0.92" />
+        <circle cx="50" cy="49" r="8.5" fill="white" opacity="0.95" />
       </g>
     </svg>
   );
@@ -87,7 +88,7 @@ export const Logo = ({
             textClassName
           )}
         >
-          UpFilo
+          DeepStation RIT
         </p>
       )}
     </div>

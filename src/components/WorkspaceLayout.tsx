@@ -83,7 +83,7 @@ export function WorkspaceLayout({
       const hasName = hasUserNameForWorkspace(workspace._id);
       if (hasName) {
         // Load the existing username
-        const storageKey = `upfilo-user-name-${workspace._id}`;
+        const storageKey = `deepstation-user-name-${workspace._id}`;
         const savedName = sessionStorage.getItem(storageKey);
         if (savedName && savedName !== userName) {
           setUserName(savedName);
@@ -181,7 +181,7 @@ export function WorkspaceLayout({
       if (workspace) {
         setUserName(name);
         // Store in sessionStorage immediately
-        sessionStorage.setItem(`upfilo-user-name-${workspace._id}`, name);
+        sessionStorage.setItem(`deepstation-user-name-${workspace._id}`, name);
         setShouldShowDialog(false);
 
         // Update user presence to "online" when they join
@@ -235,7 +235,7 @@ export function WorkspaceLayout({
         <div className="text-center space-y-4">
           <div className="w-10 h-10 border-4 border-blue-200 dark:border-[#30363d] border-t-blue-500 dark:border-t-[#58a6ff] rounded-full animate-spin mx-auto"></div>
           <div className="text-slate-500 dark:text-[#8d96a0] font-medium">
-            Loading workspace...
+            Loading DeepStation RIT workspace...
           </div>
         </div>
       </div>
@@ -283,7 +283,7 @@ export function WorkspaceLayout({
                   Profile Settings
                 </h2>
                 <p className="text-slate-500 dark:text-[#8d96a0]">
-                  Manage your profile and workspace preferences
+                  Manage your staff profile and workspace identity
                 </p>
               </div>
               <div className="bg-white/70 dark:bg-[#161b22]/90 backdrop-blur-xl p-6 rounded-2xl space-y-4 border border-slate-200/50 dark:border-[#30363d] shadow-xl">
@@ -292,7 +292,7 @@ export function WorkspaceLayout({
                     Display Name
                   </label>
                   <div className="px-3 py-2 bg-slate-100/80 dark:bg-[#21262d] rounded-lg text-slate-800 dark:text-[#c9d1d9]">
-                    {userName || "Guest User"}
+                    {userName || "Staff Member"}
                   </div>
                 </div>
                 <div className="text-left space-y-2">
@@ -319,16 +319,16 @@ export function WorkspaceLayout({
                   Notifications
                 </h2>
                 <p className="text-slate-500 dark:text-[#8d96a0]">
-                  Stay updated with your workspace activity
+                  Track internal updates, mentions, and channel activity
                 </p>
               </div>
               <div className="bg-white/70 dark:bg-[#161b22]/90 backdrop-blur-xl p-6 rounded-2xl border border-slate-200/50 dark:border-[#30363d] shadow-xl">
                 <div className="space-y-4">
                   <div className="text-center text-slate-500 dark:text-[#8d96a0]">
-                    No new notifications
+                    No new internal alerts
                   </div>
                   <div className="text-sm text-slate-400 dark:text-[#6e7681]">
-                    You're all caught up! New notifications will appear here.
+                    You are all caught up. New alerts and mentions will appear here.
                   </div>
                 </div>
               </div>
@@ -347,7 +347,7 @@ export function WorkspaceLayout({
                   Workspace Settings
                 </h2>
                 <p className="text-slate-500 dark:text-[#8d96a0]">
-                  Configure your workspace preferences and features
+                  Review workspace structure, teams, and operating preferences
                 </p>
               </div>
               <div className="grid gap-4">
@@ -399,23 +399,22 @@ export function WorkspaceLayout({
                   Select a Channel
                 </h2>
                 <p className="text-slate-500 dark:text-[#8d96a0]">
-                  Choose a channel from the sidebar to start chatting with your
-                  team
+                  Choose a channel from the sidebar to coordinate with DeepStation RIT teams
                 </p>
               </div>
               <div className="bg-white/70 dark:bg-[#161b22]/90 backdrop-blur-xl p-6 rounded-2xl border border-slate-200/50 dark:border-[#30363d] shadow-xl">
                 <div className="space-y-3 text-sm text-slate-600 dark:text-[#8d96a0]">
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-blue-500 dark:bg-[#58a6ff] rounded-full"></span>
-                    Browse channels in the sidebar
+                    Review announcement and department channels
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-emerald-500 dark:bg-[#3fb950] rounded-full"></span>
-                    Create new channels and groups
+                    Create additional desks, teams, or initiative groups
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="w-2 h-2 bg-indigo-500 dark:bg-[#a371f7] rounded-full"></span>
-                    Start conversations with team members
+                    Start a new thread with staff members
                   </div>
                 </div>
               </div>
@@ -441,11 +440,11 @@ export function WorkspaceLayout({
                 )}
                 <div className="space-y-3">
                   <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-[#e6edf3] dark:to-[#8d96a0] bg-clip-text text-transparent">
-                    Welcome to {workspace?.name || "UpFilo"}
+                    Welcome to {workspace?.name || "DeepStation RIT"}
                   </h2>
                   <p className="text-lg text-slate-500 dark:text-[#8d96a0]">
                     {userName ? `Hello ${userName}! Your` : "Your"}{" "}
-                    collaborative workspace is ready to go
+                    internal communications workspace is ready to go
                   </p>
                 </div>
                 <div className="grid gap-3">
@@ -460,7 +459,7 @@ export function WorkspaceLayout({
                       Browse Channels
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-[#8d96a0]">
-                      Join conversations and collaborate with your team
+                      Join team conversations, announcements, and handovers
                     </p>
                   </button>
                   <button
@@ -474,7 +473,7 @@ export function WorkspaceLayout({
                       Media Gallery
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-[#8d96a0]">
-                      Explore shared files, images, and documents
+                      Review documents, images, and shared operational assets
                     </p>
                   </button>
                 </div>
