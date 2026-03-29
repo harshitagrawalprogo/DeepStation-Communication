@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  appleWebApp: {
+    title: "DeepStation RIT",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "48x48" },
@@ -37,7 +40,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <meta name="apple-mobile-web-app-title" content="DeepStation RIT" />
       <body className={`${inter.className} h-full`}>
         <ThemeProvider
           attribute="class"
