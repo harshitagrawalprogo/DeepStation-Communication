@@ -323,22 +323,21 @@ export function ChannelItem({
               Final Confirmation
             </AlertDialogTitle>
             <AlertDialogDescription className="text-slate-600 dark:text-[#8d96a0]">
-              <p className="text-base">
+              <span className="block text-base">
                 You are about to{" "}
                 <span className="font-bold text-red-500 dark:text-[#f85149]">
                   permanently delete
                 </span>{" "}
                 the channel{" "}
                 <span className="font-semibold text-slate-800 dark:text-[#e6edf3]">
-                  "{channel.name}"
+                  &ldquo;{channel.name}&rdquo;
                 </span>
                 .
-              </p>
-              <br />
-              <p className="text-sm bg-red-50 dark:bg-[#f85149]/10 border border-red-200 dark:border-[#f85149]/30 rounded-lg p-3 text-red-600 dark:text-[#f85149]">
+              </span>
+              <span className="block mt-3 text-sm bg-red-50 dark:bg-[#f85149]/10 border border-red-200 dark:border-[#f85149]/30 rounded-lg p-3 text-red-600 dark:text-[#f85149]">
                 ⚠️ This action is <strong>irreversible</strong>. All messages
                 and files will be permanently lost.
-              </p>
+              </span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
